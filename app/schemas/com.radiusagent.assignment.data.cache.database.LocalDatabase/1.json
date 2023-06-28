@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "2b33451b89dccbf5f22ad88c3768db2d",
+    "entities": [
+      {
+        "tableName": "HomeCache",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `userName` TEXT NOT NULL, `emailId` TEXT NOT NULL, `emailVerified` INTEGER NOT NULL, `phoneNumber` TEXT NOT NULL, `phoneCode` TEXT NOT NULL, `referralCode` TEXT NOT NULL, `referralTo` TEXT NOT NULL, `profileUrl` TEXT NOT NULL, `earnedMoney` REAL NOT NULL, `withdrawalMoney` REAL NOT NULL, `referralMoney` REAL NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`userId`))",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userName",
+            "columnName": "userName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "emailId",
+            "columnName": "emailId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "emailVerified",
+            "columnName": "emailVerified",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phoneNumber",
+            "columnName": "phoneNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phoneCode",
+            "columnName": "phoneCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "referralCode",
+            "columnName": "referralCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "referralTo",
+            "columnName": "referralTo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileUrl",
+            "columnName": "profileUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "earnedMoney",
+            "columnName": "earnedMoney",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "withdrawalMoney",
+            "columnName": "withdrawalMoney",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "referralMoney",
+            "columnName": "referralMoney",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2b33451b89dccbf5f22ad88c3768db2d')"
+    ]
+  }
+}

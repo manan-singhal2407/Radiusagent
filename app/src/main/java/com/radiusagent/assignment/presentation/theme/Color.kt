@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package com.radiusagent.assignment.ui.theme
+package com.radiusagent.assignment.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
