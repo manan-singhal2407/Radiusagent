@@ -1,6 +1,7 @@
 package com.radiusagent.assignment.domain.di
 
 import com.radiusagent.assignment.BuildConfig
+import com.radiusagent.assignment.data.network.service.HomeService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,5 +29,11 @@ object NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHomeService(retrofit: Retrofit): HomeService {
+        return retrofit.create(HomeService::class.java)
     }
 }

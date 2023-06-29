@@ -2,13 +2,15 @@ package com.radiusagent.assignment.data.cache.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.radiusagent.assignment.data.cache.database.dao.HomeDao
-import com.radiusagent.assignment.data.cache.database.model.HomeCache
+import androidx.room.TypeConverters
+import com.radiusagent.assignment.data.cache.database.dao.FacilityDao
+import com.radiusagent.assignment.data.cache.database.model.FacilityCache
 
-@Database(entities = [HomeCache::class], version = 1)
+@Database(entities = [FacilityCache::class], version = 1, exportSchema = false)
+@TypeConverters(FacilityCache.FacilityListConverter::class, FacilityCache.ExclusionListConverter::class)
 abstract class LocalDatabase : RoomDatabase() {
 
-    abstract fun homeDao(): HomeDao
+    abstract fun facilityDao(): FacilityDao
 
     companion object {
         const val DATABASE_NAME: String = "AppDatabase"

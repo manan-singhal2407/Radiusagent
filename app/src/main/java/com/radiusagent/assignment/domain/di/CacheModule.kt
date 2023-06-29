@@ -3,7 +3,7 @@ package com.radiusagent.assignment.domain.di
 import android.content.Context
 import androidx.room.Room
 import com.radiusagent.assignment.data.cache.database.LocalDatabase
-import com.radiusagent.assignment.data.cache.database.dao.HomeDao
+import com.radiusagent.assignment.data.cache.database.dao.FacilityDao
 import com.radiusagent.assignment.data.cache.datastore.AppSettings
 import com.radiusagent.assignment.domain.Radiusagent
 import com.radiusagent.assignment.domain.Security
@@ -46,5 +46,5 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideHomeDao(db: LocalDatabase): HomeDao = db.homeDao()
+    fun provideFacilityDao(db: LocalDatabase): FacilityDao = db.facilityDao()
 }
