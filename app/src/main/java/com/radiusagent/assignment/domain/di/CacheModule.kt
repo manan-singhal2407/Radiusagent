@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.radiusagent.assignment.data.cache.database.LocalDatabase
 import com.radiusagent.assignment.data.cache.database.dao.FacilityDao
 import com.radiusagent.assignment.data.cache.datastore.AppSettings
+import com.radiusagent.assignment.data.cache.datastore.HomeSettings
 import com.radiusagent.assignment.domain.Radiusagent
 import com.radiusagent.assignment.domain.Security
 import dagger.Module
@@ -22,7 +23,13 @@ object CacheModule {
     @Singleton
     @Provides
     fun provideAppSettings(@ApplicationContext context: Context, security: Security): AppSettings {
-        return AppSettings(context, security)
+        return AppSettings(context = context, security = security)
+    }
+
+    @Singleton
+    @Provides
+    fun provideHomeSettings(@ApplicationContext context: Context): HomeSettings {
+        return HomeSettings(context = context)
     }
 
     @Singleton

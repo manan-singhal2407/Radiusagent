@@ -29,3 +29,24 @@ fun convertFacilityToFacilityCache(facilityResponse: FacilityResponse): Facility
 
     return FacilityCache(facilities = facilities, exclusions = exclusions)
 }
+
+fun convertFacilityCacheToFacility(facilityCache: FacilityCache): FacilityResponse {
+    val exclusions: MutableList<MutableList<FacilityResponse.Exclusion>> = mutableListOf()
+    facilityCache.exclusions.forEach {
+        val item: MutableList<FacilityResponse.Exclusion> = mutableListOf()
+        it.option.forEach { option ->
+            item.add(FacilityResponse.Exclusion(option.facilityId, option.optionsId))
+        }
+        exclusions.add(item)
+    }
+    val facilities: MutableList<FacilityResponse.Facility> = mutableListOf()
+    facilityCache.facilities.forEach { facility ->
+        val item: MutableList<FacilityResponse.Facility.Option> = mutableListOf()
+        facility.option.forEach { option ->
+            item.add(FacilityResponse.Facility.Option(option.name, option.icon, option.id))
+        }
+        facilities.add(FacilityResponse.Facility(facility.facilityId, facility.name, item))
+    }
+
+    return FacilityResponse(facilities = facilities, exclusions = exclusions)
+}
