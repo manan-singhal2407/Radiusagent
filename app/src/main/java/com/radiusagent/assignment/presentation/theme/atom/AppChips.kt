@@ -1,5 +1,6 @@
 package com.radiusagent.assignment.presentation.theme.atom
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -20,6 +22,7 @@ import com.radiusagent.assignment.presentation.theme.PrimaryBackgroundColor
 import com.radiusagent.assignment.presentation.theme.PrimaryTextColor
 import com.radiusagent.assignment.presentation.theme.SecondaryTextColor
 
+@SuppressLint("DiscouragedApi")
 @Composable
 fun RoundedChip(
     label: String,
@@ -28,6 +31,7 @@ fun RoundedChip(
     modifier: Modifier = Modifier,
     enabled: Boolean = true
 ) {
+    val context = LocalContext.current
     OutlinedButton(
         onClick = onClick,
         modifier = modifier,
@@ -48,8 +52,14 @@ fun RoundedChip(
             }
         ),
     ) {
+        val resourceId = context.resources.getIdentifier(
+            label.replace(Regex("[0-9]"), "").trim().replace(" ", "_").lowercase(),
+            "drawable",
+            context.packageName
+        )
+        val drawableRes = if (resourceId != 0) resourceId else R.drawable.apartment
         Icon(
-            painter = painterResource(id = R.drawable.ic_close),
+            painter = painterResource(id = drawableRes),
             contentDescription = null,
             modifier = Modifier.size(24.dp),
         )
