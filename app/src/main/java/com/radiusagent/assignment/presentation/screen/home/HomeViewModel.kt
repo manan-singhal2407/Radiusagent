@@ -1,14 +1,14 @@
 package com.radiusagent.assignment.presentation.screen.home
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.radiusagent.assignment.data.cache.database.dao.FacilityDao
+import com.radiusagent.assignment.data.cache.database.model.FacilityCache
 import com.radiusagent.assignment.data.cache.datastore.HomeSettings
-import com.radiusagent.assignment.data.network.model.response.FacilityResponse
-import com.radiusagent.assignment.domain.extension.convertFacilityCacheToFacility
 import com.radiusagent.assignment.domain.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -23,9 +23,9 @@ class HomeViewModel @Inject constructor(
     private val homeSettings: HomeSettings,
     private val facilityDao: FacilityDao
 ) : ViewModel() {
-    var loading by mutableStateOf(false)
-    var facilityResponse by mutableStateOf<FacilityResponse?>(null)
+    var facilityCache by mutableStateOf<FacilityCache?>(null)
     var snackbarMessage by mutableStateOf("")
+    val selectedPropertyType = mutableStateListOf<String>()
 
     init {
         fetchHomeScreen()
@@ -35,10 +35,8 @@ class HomeViewModel @Inject constructor(
         if (homeSettings.getHomeDataLastLoadDate().isNullOrEmpty() ||
             homeSettings.getHomeDataLastLoadDate() != getCurrentDate()
         ) {
-            Timber.e("Manan: API call")
             loadFacilityDataFromServer()
         } else {
-            Timber.e("Manan: Local storage call")
             loadFacilityDataFromLocal()
         }
     }
@@ -46,7 +44,8 @@ class HomeViewModel @Inject constructor(
     private fun loadFacilityDataFromLocal() {
         facilityDao.getHomePageData().onEach {
             if (it.isNotEmpty()) {
-                facilityResponse = convertFacilityCacheToFacility(it.last())
+                facilityCache = it.last()
+                Timber.e("Manan: " + facilityCache)
             } else {
                 loadFacilityDataFromServer()
             }
@@ -55,9 +54,8 @@ class HomeViewModel @Inject constructor(
 
     private fun loadFacilityDataFromServer() {
         homeRepository.getFacilityData().onEach { dataState ->
-            loading = dataState.loading
             dataState.data?.let {
-                facilityResponse = it
+                facilityCache = it
                 homeSettings.saveHomeDataLastLoadDate(getCurrentDate())
             }
             dataState.error?.let {
@@ -69,8 +67,31 @@ class HomeViewModel @Inject constructor(
     private fun getCurrentDate(): String {
         val calendar = Calendar.getInstance()
         val year: Int = calendar.get(Calendar.YEAR)
-        val month: Int = calendar.get(Calendar.MONTH) + 1
+        val month: Int = calendar.get(Calendar.MONTH) + CALENDAR_MONTH_INCREMENT
         val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
         return "$year-$month-$day"
+    }
+
+    fun onChipClick(index: String, list: List<String>) {
+        if (checkIfChipIsEnabled(list)) {
+            if (selectedPropertyType.contains(index)) {
+                selectedPropertyType.remove(index)
+            } else {
+                selectedPropertyType.add(index)
+            }
+        }
+    }
+
+    fun checkIfChipIsEnabled(list: List<String>): Boolean {
+        list.forEach {
+            if (selectedPropertyType.contains(it)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    companion object {
+        const val CALENDAR_MONTH_INCREMENT = 1
     }
 }

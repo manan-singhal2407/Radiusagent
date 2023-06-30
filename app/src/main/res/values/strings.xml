@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Radiusagent</string>
+
+    <string name="loading_text">Loading…</string>
 </resources>

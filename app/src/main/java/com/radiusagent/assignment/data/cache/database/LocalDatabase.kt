@@ -7,7 +7,7 @@ import com.radiusagent.assignment.data.cache.database.dao.FacilityDao
 import com.radiusagent.assignment.data.cache.database.model.FacilityCache
 
 @Database(entities = [FacilityCache::class], version = 1, exportSchema = false)
-@TypeConverters(FacilityCache.FacilityListConverter::class, FacilityCache.ExclusionListConverter::class)
+@TypeConverters(FacilityCache.FacilityListConverter::class)
 abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun facilityDao(): FacilityDao

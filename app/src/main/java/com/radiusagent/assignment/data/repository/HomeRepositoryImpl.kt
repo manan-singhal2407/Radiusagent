@@ -15,9 +15,9 @@ class HomeRepositoryImpl @Inject constructor(
 ) : HomeRepository {
     override fun getFacilityData() = flow {
         emit(DataState.loading())
-        val facilityResponse = homeService.getFacilityInfo()
-        emit(DataState.success(facilityResponse))
-        facilityDao.upsert(convertFacilityToFacilityCache(facilityResponse))
+        val facilityCache = convertFacilityToFacilityCache(homeService.getFacilityInfo())
+        emit(DataState.success(facilityCache))
+        facilityDao.upsert(facilityCache)
     }.catch {
         emit(DataState.error("Unknown error"))
     }

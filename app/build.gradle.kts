@@ -141,8 +141,6 @@ android {
 
         implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-        implementation("io.coil-kt:coil-compose:2.4.0")
-
         implementation("com.jakewharton.timber:timber:5.0.1")
 
         implementation("com.google.dagger:hilt-android:2.44")

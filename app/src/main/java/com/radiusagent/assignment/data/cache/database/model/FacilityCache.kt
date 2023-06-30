@@ -16,9 +16,7 @@ data class FacilityCache(
     @PrimaryKey
     val id: String = "default",
     @TypeConverters(FacilityListConverter::class)
-    val facilities: List<Facility>,
-    @TypeConverters(ExclusionListConverter::class)
-    val exclusions: List<Exclusion>,
+    val facilities: List<Facility>
 ) {
     data class Facility(
         val facilityId: String,
@@ -28,16 +26,8 @@ data class FacilityCache(
         data class Option(
             val name: String,
             val icon: String,
-            val id: String
-        )
-    }
-
-    data class Exclusion(
-        val option: List<Option>
-    ) {
-        data class Option(
-            val facilityId: String,
-            val optionsId: String
+            val id: String,
+            val disabled: List<String>
         )
     }
 
@@ -54,23 +44,6 @@ data class FacilityCache(
 
         @TypeConverter
         fun fromJsonToList(optionListString: String): List<Facility> {
-            return moshiAdapter.fromJson(optionListString) ?: emptyList()
-        }
-    }
-
-    class ExclusionListConverter {
-        private val moshiAdapter: JsonAdapter<List<Exclusion>> by lazy {
-            val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-            moshi.adapter(Types.newParameterizedType(List::class.java, Exclusion::class.java))
-        }
-
-        @TypeConverter
-        fun fromListToJson(optionList: List<Exclusion>): String {
-            return moshiAdapter.toJson(optionList)
-        }
-
-        @TypeConverter
-        fun fromJsonToList(optionListString: String): List<Exclusion> {
             return moshiAdapter.fromJson(optionListString) ?: emptyList()
         }
     }
